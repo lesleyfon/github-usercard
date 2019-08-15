@@ -3,9 +3,14 @@
            https://api.github.com/users/<your name>
 */
 const url  = 'https://api.github.com/users/lesleyfon'
-axios.get(url).then(res=>{
+axios.get(url)
+  .then(res=>{
   console.log(res)
-})
+  })
+  .catch(err=>{
+    console.error('There was an error with the axios get call')
+    console.error("Error: ", err )
+  })
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
