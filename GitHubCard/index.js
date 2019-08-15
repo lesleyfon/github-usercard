@@ -77,38 +77,38 @@ axios.get(url)
 
 function githubUserCreator(args){
   // user container
-  console.log(args[0])
+  console.log(args)
   const githubUser = document.createElement('div');
   githubUser.classList.add('user')
   //image div
   const githubUserAvatarDiv = document.createElement('div');
   githubUserAvatarDiv.classList.add("avatarDiv");
   const githubUserAvatar = document.createElement('img');
-    githubUserAvatar.src = args[0].avatar;
+    githubUserAvatar.src = args.avatar;
     githubUserAvatarDiv.appendChild(githubUserAvatar)
     // user info 
     const githubUserInfoDiv = document.createElement('div');
     githubUserInfoDiv.classList.add('info')
     const githubUserName = document.createElement('h2');
-    githubUserName.textContent = args[0].name
+    githubUserName.textContent = args.name
     githubUserInfoDiv.appendChild(githubUserName)
     const githubUserLocation = document.createElement('h3');
-    githubUserLocation.textContent = args[0].location
+    githubUserLocation.textContent = args.location
     githubUserInfoDiv.appendChild(githubUserLocation)
     const createdAt = document.createElement('h4');
-    createdAt.textContent = args[0].createdAt
+    createdAt.textContent = args.createdAt
     githubUserInfoDiv.appendChild(createdAt);
     const followers = document.createElement('h6');
-    followers.textContent = `${args[0].followers} : ${args[0].following}`
+    followers.textContent = `${args.followers} : ${args.following}`
     githubUserInfoDiv.appendChild(followers)
     const githubUrL = document.createElement('h5');
-    githubUrL.textContent = args[0].githubUrL
+    githubUrL.textContent = args.githubUrL
     githubUserInfoDiv.appendChild(githubUrL)
     const repo = document.createElement('h6');
-    repo.textContent = args[0].repo;
+    repo.textContent = args.repo;
     githubUserInfoDiv.appendChild(repo)
     const totalRepoCount = document.createElement('p');
-    totalRepoCount.textContent = args[0].totalRepoCount
+    totalRepoCount.textContent = args.totalRepoCount
     githubUserInfoDiv.appendChild(totalRepoCount)
     githubUser.appendChild(githubUserAvatarDiv)
     githubUser.appendChild(githubUserInfoDiv)
@@ -136,9 +136,8 @@ function githubUserCreator(args){
 
   function getAlldata(arr, me) {
     arr.unshift(me)
-    console.log(arr)
     const resArr1 = arr.map(userArr=>{
-      return {
+      githubUserCreator({
         name: userArr.name || userArr.login,
         avatar: userArr.avatar_url,
         createdAt: userArr.created_at || '',
@@ -148,7 +147,7 @@ function githubUserCreator(args){
         githubUrl: userArr.url,
         repo: userArr.repos_url,
         totalRepoCount: userArr.public_repos || ''
-      }
+      })
     }) 
     console.log(resArr1)
   }
