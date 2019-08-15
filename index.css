@@ -123,5 +123,24 @@ body {
   margin: 3px 0 10px;
 }
 
+.user{
+  display: flex;
+  /* justify-content: flex-start; */
+  background: white;
+  padding: 5px;
+  box-shadow: 0px 1px 6px -2px grey;
+}
+.avatarDiv{
+  width: 40%;
+}
 
-
+.avatarDiv img{
+  height: 200px;
+}
+.info{
+  width: 55%;
+  margin: 10px 0px 0px 0px;
+}
+.info *{
+  font-size: 2rem; 
+}

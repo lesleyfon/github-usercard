@@ -68,49 +68,58 @@ axios.get(url)
 
 function githubUserCreator(args){
   // user container
+  console.log(args[0])
   const githubUser = document.createElement('div');
   githubUser.classList.add('user')
   //image div
   const githubUserAvatarDiv = document.createElement('div');
   githubUserAvatarDiv.classList.add("avatarDiv");
   const githubUserAvatar = document.createElement('img');
-    githubUserAvatar.src = 'https://avatars3.githubusercontent.com/u/35934525?v=4';
+    githubUserAvatar.src = args[0].avatar;
     githubUserAvatarDiv.appendChild(githubUserAvatar)
     // user info 
     const githubUserInfoDiv = document.createElement('div');
     githubUserInfoDiv.classList.add('info')
     const githubUserName = document.createElement('h2');
+    githubUserName.textContent = args[0].name
     githubUserInfoDiv.appendChild(githubUserName)
     const githubUserLocation = document.createElement('h3');
+    githubUserLocation.textContent = args[0].location
     githubUserInfoDiv.appendChild(githubUserLocation)
     const createdAt = document.createElement('h4');
+    createdAt.textContent = args[0].createdAt
     githubUserInfoDiv.appendChild(createdAt);
     const followers = document.createElement('h6');
+    followers.textContent = `${args[0].followers} : ${args[0].following}`
     githubUserInfoDiv.appendChild(followers)
-    const githubuRL = document.createElement('h5');
-    githubUserInfoDiv.appendChild(githubuRL)
+    const githubUrL = document.createElement('h5');
+    githubUrL.textContent = args[0].githubUrL
+    githubUserInfoDiv.appendChild(githubUrL)
     const repo = document.createElement('h6');
+    repo.textContent = args[0].repo;
     githubUserInfoDiv.appendChild(repo)
     const totalRepoCount = document.createElement('p');
+    totalRepoCount.textContent = args[0].totalRepoCount
     githubUserInfoDiv.appendChild(totalRepoCount)
     githubUser.appendChild(githubUserAvatarDiv)
     githubUser.appendChild(githubUserInfoDiv)
-    
+    const card = document.querySelector('.cards');
+      card.appendChild(githubUser)
+    console.log(githubUser)
     return githubUser
   }
   function gitHubResponse(data){
-    // console.log([data])
     const resArr = [data].map(userArr=>{
         return {
           name: userArr.name,
+          avatar: userArr.avatar_url,
           createdAt: userArr.created_at,
           location: userArr.location,
           followers: userArr.followers,
-          following: userArr.followif,
+          following: userArr.following,
           githubUrl: userArr.url,
           repo: userArr.repos_url,
           totalRepoCount: userArr.public_repos
-
         }
         
     })
