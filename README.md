@@ -7,7 +7,7 @@ In this project we are going to be accessing the GitHub API and building a socia
   * Creating DOM components with Javascript Functions.
   * Utilizing 3rd party libraries (axios)
   * Promises, .then & .catch
-  * HTTP GET requests
+  * HTTP GET requests 
   * Array Methods
 * DOM
   * Element selection

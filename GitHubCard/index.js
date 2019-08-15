@@ -2,15 +2,6 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
-const url  = 'https://api.github.com/users/lesleyfon'
-axios.get(url)
-  .then(res=>{
-  console.log(res)
-  })
-  .catch(err=>{
-    console.error('There was an error with the axios get call')
-    console.error("Error: ", err )
-  })
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -62,3 +53,56 @@ const followersArray = [];
   luishrd
   bigknell
 */
+// step1 
+const url  = 'https://api.github.com/users/lesleyfon'
+axios.get(url)
+  .then(res=>{
+  gitHubResponse(res.data);
+  })
+  .catch(err=>{
+    console.error('There was an error with the axios get call')
+    console.error("Error: ", err )
+  });
+  
+//step 3
+  function gitHubResponse(data){
+    console.log(data)
+  }
+
+  function githubUserCreator(){
+    // user container
+    const githubUser = document.createElement('div');
+    githubUser.classList.add('user')
+    //image div
+    const githubUserAvatarDiv = document.createElement('div');
+    githubUserAvatarDiv.classList.add("avatarDiv");
+    const githubUserAvatar = document.createElement('img');
+    githubUserAvatar.src = 'https://avatars3.githubusercontent.com/u/35934525?v=4';
+    githubUserAvatarDiv.appendChild(githubUserAvatar)
+    // user info 
+    const githubUserInfoDiv = document.createElement('div');
+    githubUserInfoDiv.classList.add('info')
+    const githubUserName = document.createElement('h2');
+    githubUserInfoDiv.appendChild(githubUserName)
+    const githubUserLocation = document.createElement('h3');
+    githubUserInfoDiv.appendChild(githubUserLocation)
+    const createdAt = document.createElement('h4');
+    githubUserInfoDiv.appendChild(createdAt);
+    const followers = document.createElement('h6');
+    githubUserInfoDiv.appendChild(followers)
+    const githubuRL = document.createElement('h5');
+    githubUserInfoDiv.appendChild(githubuRL)
+    const repo = document.createElement('h6');
+    githubUserInfoDiv.appendChild(repo)
+    const totalRepoCount = document.createElement('p');
+    githubUserInfoDiv.appendChild(totalRepoCount)
+
+    
+    
+
+    githubUser.appendChild(githubUserAvatarDiv)
+    githubUser.appendChild(githubUserInfoDiv)
+    return githubUser
+  }
+
+  console.log(githubUserCreator())
