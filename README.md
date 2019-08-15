@@ -14,6 +14,7 @@ In this project we are going to be accessing the GitHub API and building a socia
   * Basic DOM manipulation
   * Events and event listeners
 
+
 ## Set Up The Project With Git
 
 **Follow these steps to set up and work on your project:**
