@@ -55,9 +55,18 @@ const followersArray = [];
 */
 // step1 
 const url  = 'https://api.github.com/users/lesleyfon'
+const followersUrl = 'https://api.github.com/users/lesleyfon/followers'
+
 axios.get(url)
   .then(res=>{
-  gitHubResponse(res.data);
+    axios.get(followersUrl)
+      .then(followersResponse=>{
+       getAlldata(followersResponse.data, res.data)
+      }).catch(Err=>{
+        console.error('There was an error with the axios get call')
+        console.error("Error: ", Err )
+      })
+   
   })
   .catch(err=>{
     console.error('There was an error with the axios get call')
@@ -104,8 +113,7 @@ function githubUserCreator(args){
     githubUser.appendChild(githubUserAvatarDiv)
     githubUser.appendChild(githubUserInfoDiv)
     const card = document.querySelector('.cards');
-      card.appendChild(githubUser)
-    console.log(githubUser)
+    card.appendChild(githubUser)
     return githubUser
   }
   function gitHubResponse(data){
@@ -124,4 +132,23 @@ function githubUserCreator(args){
         
     })
     githubUserCreator(resArr)
+  }
+
+  function getAlldata(arr, me) {
+    arr.unshift(me)
+    console.log(arr)
+    const resArr1 = arr.map(userArr=>{
+      return {
+        name: userArr.name || userArr.login,
+        avatar: userArr.avatar_url,
+        createdAt: userArr.created_at || '',
+        location: userArr.location || '',
+        followers: userArr.followers || '',
+        following: userArr.following || '',
+        githubUrl: userArr.url,
+        repo: userArr.repos_url,
+        totalRepoCount: userArr.public_repos || ''
+      }
+    }) 
+    console.log(resArr1)
   }
