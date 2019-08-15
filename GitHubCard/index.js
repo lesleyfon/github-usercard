@@ -65,18 +65,15 @@ axios.get(url)
   });
   
 //step 3
-  function gitHubResponse(data){
-    console.log(data)
-  }
 
-  function githubUserCreator(){
-    // user container
-    const githubUser = document.createElement('div');
-    githubUser.classList.add('user')
-    //image div
-    const githubUserAvatarDiv = document.createElement('div');
-    githubUserAvatarDiv.classList.add("avatarDiv");
-    const githubUserAvatar = document.createElement('img');
+function githubUserCreator(args){
+  // user container
+  const githubUser = document.createElement('div');
+  githubUser.classList.add('user')
+  //image div
+  const githubUserAvatarDiv = document.createElement('div');
+  githubUserAvatarDiv.classList.add("avatarDiv");
+  const githubUserAvatar = document.createElement('img');
     githubUserAvatar.src = 'https://avatars3.githubusercontent.com/u/35934525?v=4';
     githubUserAvatarDiv.appendChild(githubUserAvatar)
     // user info 
@@ -96,13 +93,26 @@ axios.get(url)
     githubUserInfoDiv.appendChild(repo)
     const totalRepoCount = document.createElement('p');
     githubUserInfoDiv.appendChild(totalRepoCount)
-
-    
-    
-
     githubUser.appendChild(githubUserAvatarDiv)
     githubUser.appendChild(githubUserInfoDiv)
+    
     return githubUser
   }
+  function gitHubResponse(data){
+    // console.log([data])
+    const resArr = [data].map(userArr=>{
+        return {
+          name: userArr.name,
+          createdAt: userArr.created_at,
+          location: userArr.location,
+          followers: userArr.followers,
+          following: userArr.followif,
+          githubUrl: userArr.url,
+          repo: userArr.repos_url,
+          totalRepoCount: userArr.public_repos
 
-  console.log(githubUserCreator())
+        }
+        
+    })
+    githubUserCreator(resArr)
+  }
