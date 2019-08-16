@@ -56,10 +56,10 @@ axios.get(url)
   .then(res=>{
     axios.get(followersUrl)
       .then(followersResponse=>{
-        // console.log(followersResponse.data);
         followersResponse.data.forEach(dataRes=>{
-            axios.get(urlFollow + dataRes.login).then(eachFollowResponse=>{
-                getAlldata(eachFollowResponse.data)
+            axios.get(urlFollow + dataRes.login)
+                .then(eachFollowResponse=>{
+                    getAlldata(eachFollowResponse.data)
             })
         })
       }).catch(Err=>{
