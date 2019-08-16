@@ -86,7 +86,6 @@ function githubUserCreator(args){
     // user info
     const githubUserInfoDiv = document.createElement('div');
     githubUserInfoDiv.classList.add('card-info')
-    console.log(githubUser)
       // Name
       const githubName = document.createElement('h3');
       githubName.classList.add('name');
@@ -137,18 +136,14 @@ function githubUserCreator(args){
             location: data.location || '',
             followers: data.followers,
             following: data.following || '',
-            githubUrl: data.url,
+            githubUrl: data.html_url,
             repo: data.repos_url,
             totalRepoCount: data.public_repos
         }
-        
-    
-    console.log(resArr)
-    githubUserCreator(resArr)
+        githubUserCreator(resArr)
   }
 
   function getAlldata(arr) {
-
       githubUserCreator({
         name: arr.name || arr.login,
         avatar: arr.avatar_url,
@@ -156,7 +151,7 @@ function githubUserCreator(args){
         location: arr.location || '',
         followers: arr.followers,
         following: arr.following || '',
-        githubUrl: arr.url,
+        githubUrl: arr.html_url,
         repo: arr.repos_url,
       })
     
