@@ -6,7 +6,6 @@
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
-
    Skip to Step 3.
 */
 
@@ -23,12 +22,8 @@
           Using that array, iterate over it, requesting data for each user, creating a new card for each
           user, and adding that card to the DOM.
 */
-
-const followersArray = [];
-
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
-
 <div class="card">
   <img src={image url of user} />
   <div class="card-info">
@@ -43,7 +38,6 @@ const followersArray = [];
     <p>Bio: {users bio}</p>
   </div>
 </div>
-
 */
 
 /* List of LS Instructors Github username's: 
@@ -55,18 +49,24 @@ const followersArray = [];
 */
 // step1 
 const url  = 'https://api.github.com/users/lesleyfon'
+let urlFollow  = 'https://api.github.com/users/'
 const followersUrl = 'https://api.github.com/users/lesleyfon/followers'
 
 axios.get(url)
   .then(res=>{
     axios.get(followersUrl)
       .then(followersResponse=>{
-       getAlldata(followersResponse.data, res.data)
+        // console.log(followersResponse.data);
+        followersResponse.data.forEach(dataRes=>{
+            axios.get(urlFollow + dataRes.login).then(eachFollowResponse=>{
+                getAlldata(eachFollowResponse.data)
+            })
+        })
       }).catch(Err=>{
         console.error('There was an error with the axios get call')
         console.error("Error: ", Err )
       })
-   
+      gitHubResponse(res.data)
   })
   .catch(err=>{
     console.error('There was an error with the axios get call')
@@ -76,78 +76,85 @@ axios.get(url)
 //step 3
 
 function githubUserCreator(args){
-  // user container
-  console.log(args)
-  const githubUser = document.createElement('div');
-  githubUser.classList.add('user')
-  //image div
-  const githubUserAvatarDiv = document.createElement('div');
-  githubUserAvatarDiv.classList.add("avatarDiv");
-  const githubUserAvatar = document.createElement('img');
-    githubUserAvatar.src = args.avatar;
-    githubUserAvatarDiv.appendChild(githubUserAvatar)
-    // user info 
-    const githubUserInfoDiv = document.createElement('div');
-    githubUserInfoDiv.classList.add('info')
-    const githubUserName = document.createElement('h2');
-    githubUserName.textContent = args.name
-    githubUserInfoDiv.appendChild(githubUserName)
-    const githubUserLocation = document.createElement('h3');
-    githubUserLocation.textContent = args.location
-    githubUserInfoDiv.appendChild(githubUserLocation)
-    const createdAt = document.createElement('h4');
-    createdAt.textContent = args.createdAt
-    githubUserInfoDiv.appendChild(createdAt);
-    const followers = document.createElement('h6');
-    followers.textContent = `${args.followers} : ${args.following}`
-    githubUserInfoDiv.appendChild(followers)
-    const githubUrL = document.createElement('h5');
-    githubUrL.textContent = args.githubUrL
-    githubUserInfoDiv.appendChild(githubUrL)
-    const repo = document.createElement('h6');
-    repo.textContent = args.repo;
-    githubUserInfoDiv.appendChild(repo)
-    const totalRepoCount = document.createElement('p');
-    totalRepoCount.textContent = args.totalRepoCount
-    githubUserInfoDiv.appendChild(totalRepoCount)
-    githubUser.appendChild(githubUserAvatarDiv)
-    githubUser.appendChild(githubUserInfoDiv)
-    const card = document.querySelector('.cards');
-    card.appendChild(githubUser)
-    return githubUser
-  }
+    // user container
+    const githubUser = document.createElement('div');
+    githubUser.classList.add('user')
+    //image div
+    const githubUserAvatarDiv = document.createElement('div');
+    githubUserAvatarDiv.classList.add("avatarDiv");
+    const githubUserAvatar = document.createElement('img');
+      githubUserAvatar.src = args.avatar;
+      githubUserAvatarDiv.appendChild(githubUserAvatar)
+      // user info
+      const githubUserInfoDiv = document.createElement('div');
+      githubUserInfoDiv.classList.add('card-info')
+      // Name
+      const githubName = document.createElement('h3');
+      githubName.classList.add('name');
+      githubName.textContent ="Name:" + args.name
+      githubUserInfoDiv.appendChild(githubName)
+      //User Name
+      const githubUserName = document.createElement('p');
+      githubUserName.textContent = 'User name: '+ args.name
+      githubUserInfoDiv.appendChild(githubUserName)
+      // Location
+      const githubUserLocation = document.createElement('p');
+      githubUserLocation.textContent = args.location
+      githubUserInfoDiv.appendChild(githubUserLocation)
+      // <p>Profile:
+      {/* <a href={address to users github page}>{address to users github page}</a> */}
+      //Profile
+      const githubUrL = document.createElement('p');
+      githubUrL.textContent =  'Profile: '+ args.githubUrl
+      githubUserInfoDiv.appendChild(githubUrL)
+      //bio
+      const bio = document.createElement('p');
+      bio.textContent = args.bio
+      githubUserInfoDiv.appendChild(bio);
+      //followers
+      const followers = document.createElement('h6');
+      followers.textContent = args.followers
+      githubUserInfoDiv.appendChild(followers)
+      // folowing
+      const following = document.createElement('h6');
+      following.textContent = args.following
+      githubUserInfoDiv.appendChild(following);
+      githubUser.appendChild(githubUserAvatarDiv)
+      githubUser.appendChild(githubUserInfoDiv);
+      // appendig it to the page
+      const card = document.querySelector('.cards');
+      card.appendChild(githubUser)
+      return githubUser
+    }  
   function gitHubResponse(data){
-    const resArr = [data].map(userArr=>{
-        return {
-          name: userArr.name,
-          avatar: userArr.avatar_url,
-          createdAt: userArr.created_at,
-          location: userArr.location,
-          followers: userArr.followers,
-          following: userArr.following,
-          githubUrl: userArr.url,
-          repo: userArr.repos_url,
-          totalRepoCount: userArr.public_repos
+    const resArr = {
+            name: data.name || data.login,
+            avatar: data.avatar_url,
+            createdAt: data.created_at || '',
+            location: data.location || '',
+            followers: data.followers,
+            following: data.following || '',
+            githubUrl: data.url,
+            repo: data.repos_url,
+            totalRepoCount: data.public_repos
         }
         
-    })
+    
+    console.log(resArr)
     githubUserCreator(resArr)
   }
 
-  function getAlldata(arr, me) {
-    arr.unshift(me)
-    const resArr1 = arr.map(userArr=>{
+  function getAlldata(arr) {
+
       githubUserCreator({
-        name: userArr.name || userArr.login,
-        avatar: userArr.avatar_url,
-        createdAt: userArr.created_at || '',
-        location: userArr.location || '',
-        followers: userArr.followers || '',
-        following: userArr.following || '',
-        githubUrl: userArr.url,
-        repo: userArr.repos_url,
-        totalRepoCount: userArr.public_repos || ''
+        name: arr.name || arr.login,
+        avatar: arr.avatar_url,
+        createdAt: arr.created_at || '',
+        location: arr.location || '',
+        followers: arr.followers,
+        following: arr.following || '',
+        githubUrl: arr.url,
+        repo: arr.repos_url,
       })
-    }) 
-    console.log(resArr1)
+    
   }
