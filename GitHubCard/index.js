@@ -78,16 +78,15 @@ axios.get(url)
 function githubUserCreator(args){
     // user container
     const githubUser = document.createElement('div');
-    githubUser.classList.add('user')
+    githubUser.classList.add('card')
     //image div
-    const githubUserAvatarDiv = document.createElement('div');
-    githubUserAvatarDiv.classList.add("avatarDiv");
     const githubUserAvatar = document.createElement('img');
-      githubUserAvatar.src = args.avatar;
-      githubUserAvatarDiv.appendChild(githubUserAvatar)
-      // user info
-      const githubUserInfoDiv = document.createElement('div');
-      githubUserInfoDiv.classList.add('card-info')
+    githubUserAvatar.src = args.avatar;
+    githubUser.appendChild(githubUserAvatar)
+    // user info
+    const githubUserInfoDiv = document.createElement('div');
+    githubUserInfoDiv.classList.add('card-info')
+    console.log(githubUser)
       // Name
       const githubName = document.createElement('h3');
       githubName.classList.add('name');
@@ -99,13 +98,17 @@ function githubUserCreator(args){
       githubUserInfoDiv.appendChild(githubUserName)
       // Location
       const githubUserLocation = document.createElement('p');
-      githubUserLocation.textContent = args.location
+      githubUserLocation.textContent = 'Location: ' + args.location
       githubUserInfoDiv.appendChild(githubUserLocation)
       // <p>Profile:
       {/* <a href={address to users github page}>{address to users github page}</a> */}
       //Profile
       const githubUrL = document.createElement('p');
-      githubUrL.textContent =  'Profile: '+ args.githubUrl
+      let atag = document.createElement('a');
+      atag.href =  args.githubUrl;
+      atag.textContent = args.githubUrl;
+      githubUrL.textContent =  'Profile: '
+      githubUrL.appendChild(atag)
       githubUserInfoDiv.appendChild(githubUrL)
       //bio
       const bio = document.createElement('p');
@@ -113,17 +116,17 @@ function githubUserCreator(args){
       githubUserInfoDiv.appendChild(bio);
       //followers
       const followers = document.createElement('h6');
-      followers.textContent = args.followers
+      followers.textContent = 'Followers: ' + args.followers
       githubUserInfoDiv.appendChild(followers)
       // folowing
       const following = document.createElement('h6');
-      following.textContent = args.following
+      following.textContent = 'Following: ' + args.following
       githubUserInfoDiv.appendChild(following);
-      githubUser.appendChild(githubUserAvatarDiv)
       githubUser.appendChild(githubUserInfoDiv);
       // appendig it to the page
       const card = document.querySelector('.cards');
       card.appendChild(githubUser)
+      
       return githubUser
     }  
   function gitHubResponse(data){
